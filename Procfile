@@ -1,0 +1,1 @@
+start_worker: sh scripts/run.sh && scripts/setup.sh
