@@ -9,11 +9,7 @@ sudo curl -k https://intoli.com/install-google-chrome.sh | bash
 sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
 sudo google-chrome --version && which google-chrome 
 
-
-
 sudo yum install -y python3-pip
-
-
 
 pip3 install --ignore-installed remax-pipeline
 
