@@ -1,0 +1,24 @@
+
+# Use an official Ubuntu as a parent image
+FROM ubuntu:latest
+
+
+
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y sudo wget curl unzip
+
+
+COPY scripts/ /app/scripts
+
+RUN chmod +x /app/scripts/setup.sh
+RUN /app/scripts/setup.sh
+
+# RUN pip install remax-pipeline
+
+
+# Run app.py when the container launches
+CMD ["tail", "-f", "/dev/null"]
