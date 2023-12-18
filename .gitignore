@@ -1,0 +1,7 @@
+.*.swp
+.DS_Store
+*.tfstate*
+.terraform/
+.terraform.lock.hcl
+react-dotenv
+venv/
