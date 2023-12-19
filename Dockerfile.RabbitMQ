@@ -2,8 +2,11 @@ FROM rabbitmq:3-management
 
 # Declare an argument
 ARG RABBITMQ_USER
+ARG RABBITMQ_PASSWORD
 
 # Set the environment variable to the value of the build-time argument
 ENV RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+ENV RABBITMQ_DEFAULT_PASSWORD=${RABBITMQ_PASSWORD}
+
 
 EXPOSE 5672 15672
