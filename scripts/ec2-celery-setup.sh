@@ -16,5 +16,3 @@ sudo yum install -y python3-pip
 # installing remax_pipeline
 pip3 install --ignore-installed remax-pipeline
 
-
-
