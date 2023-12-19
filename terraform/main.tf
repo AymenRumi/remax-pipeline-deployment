@@ -13,7 +13,7 @@ resource "aws_secretsmanager_secret" "my_secrets" {
 }
 
 
-resource "aws_secretsmanager_secret_version" "example" {
+resource "aws_secretsmanager_secret_version" "secrets" {
   secret_id     = aws_secretsmanager_secret.my_secrets.id
   secret_string = jsonencode({
    repository_url = aws_ecr_repository.ecr_repo.repository_url 
