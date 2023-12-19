@@ -1,7 +1,6 @@
 FROM rabbitmq:3-management
 
-# Declare an argument
-ARG RABBITMQ_USER
+ARG ABBITMQ_USER
 ARG RABBITMQ_PASSWORD
 
 # Set the environment variable to the value of the build-time argument
