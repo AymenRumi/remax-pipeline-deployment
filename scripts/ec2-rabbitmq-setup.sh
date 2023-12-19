@@ -31,7 +31,7 @@ sudo groupadd docker
 # Add the ec2-user to the docker group
 sudo usermod -a -G docker ec2-user
 
-
+# Docker permission
 sudo chmod 666 /var/run/docker.sock
 
 echo Logging into ECR
