@@ -10,8 +10,6 @@ GREEN='\033[0;32m'
 NC='\033[0m' 
 
 
-
-
 # Reading ENV Variables from AWS Secrets Manager
 export RABBITMQ_USER=$(aws secretsmanager get-secret-value --secret-id ${AWS_SECRETS} --query 'SecretString' --output text | jq -r '.rabbitmq_username')
 export RABBITMQ_PASS=$(aws secretsmanager get-secret-value --secret-id ${AWS_SECRETS} --query 'SecretString' --output text | jq -r '.rabbitmq_password')
