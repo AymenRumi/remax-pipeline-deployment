@@ -13,14 +13,14 @@ class SecretManager:
     def __init__(self):
         session = boto3.session.Session()
         client = session.client(service_name="secretsmanager", region_name="us-east-1")
-        secret_name = "remax_secrets"
+        secret_name = "remax-secrets"
 
-        response = client.get_secret_value(SecretID=secret_name)
+        response = client.get_secret_value(SecretId=secret_name)
 
-        self.secret_dict = json.loads(response)
+        self.secret_dict = response
 
     def get_secret(self, key: str) -> str:
-        return self.secret_dict[key]
+        return json.loads(self.secret_dict["SecretString"])[key]
 
 
 def lambda_handler(event, context):
