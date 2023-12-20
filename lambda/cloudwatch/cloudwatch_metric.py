@@ -11,34 +11,42 @@ def log_message(message: str) -> None:
 
 class SecretManager:
     def __init__(self) -> None:
-        session = boto3.session.Session()
-        client = session.client(service_name="secretsmanager", region_name="us-east-1")
-        secret_name = "remax-secrets"
+        self.secret_dict = None
+        try:
+            session = boto3.session.Session()
+            client = session.client(
+                service_name="secretsmanager", region_name="us-east-1"
+            )
+            secret_name = "remax-secrets"
 
-        response = client.get_secret_value(SecretId=secret_name)
+            response = client.get_secret_value(SecretId=secret_name)
+            self.secret_dict = response
 
-        self.secret_dict = response
+        except ClientError as e:
+            log_message({"event": "SecretManagerError", "message": str(e)})
+            raise
 
     def get_secret(self, key: str) -> str:
-        return json.loads(self.secret_dict["SecretString"])[key]
+        if self.secret_dict:
+            return json.loads(self.secret_dict["SecretString"])[key]
+        else:
+            raise ValueError("Secrets not loaded")
 
 
 def lambda_handler(event, context) -> dict:
-
-    secrets_client = SecretManager()
-    secrets = {
-        k: secrets_client.get_secret(f"rabbitmq_{k}")
-        for k in ["username", "password", "host"]
-    }
-
-    queue_name = "celery"
-
-    url = f"{secrets['host']}/api/queues/%2F/{queue_name}"
-
     response_data = {"status": "", "queue_size": None, "message": ""}
 
-    # Get queue size
     try:
+        secrets_client = SecretManager()
+        secrets = {
+            k: secrets_client.get_secret(f"rabbitmq_{k}")
+            for k in ["username", "password", "host"]
+        }
+
+        queue_name = "celery"
+        url = f"{secrets['host']}/api/queues/%2F/{queue_name}"
+
+        # Get queue size
         response = requests.get(url, auth=(secrets["username"], secrets["password"]))
         response.raise_for_status()
 
@@ -46,17 +54,8 @@ def lambda_handler(event, context) -> dict:
         log_message({"event": "Queue Size Fetched", "queue_size": queue_size})
         response_data["queue_size"] = queue_size
 
-    except requests.RequestException as e:
-
-        error_message = f"Error fetching qeue size: {e}"
-        log_message({"event": "Error", "message": error_message})
-        response_data.update({"status": "error", "message": error_message})
-        return response_data
-
-    #  Upadate ClouWatch Metric
-    cloudwatch_client = boto3.client("cloudwatch")
-
-    try:
+        # Update CloudWatch Metric
+        cloudwatch_client = boto3.client("cloudwatch")
         cloudwatch_client.put_metric_data(
             Namespace="RabbitMQ",
             MetricData=[
@@ -73,10 +72,19 @@ def lambda_handler(event, context) -> dict:
         log_message({"event": "Metric Sent to CloudWatch", "queue_size": queue_size})
         response_data["status"] = "success"
 
-    except ClientError as e:
+    except requests.RequestException as e:
+        error_message = f"Error fetching queue size: {e}"
+        log_message({"event": "Error", "message": error_message})
+        response_data.update({"status": "error", "message": error_message})
 
-        error_message = f"Error sending metric to CloudWatch: {e}"
-        log_message({"event": "CloudWatch Error", "message": error_message})
+    except ClientError as e:
+        error_message = f"Error with AWS Client: {e}"
+        log_message({"event": "AWS Client Error", "message": error_message})
+        response_data.update({"status": "error", "message": error_message})
+
+    except Exception as e:
+        error_message = f"General Error: {e}"
+        log_message({"event": "General Error", "message": error_message})
         response_data.update({"status": "error", "message": error_message})
 
     return response_data
