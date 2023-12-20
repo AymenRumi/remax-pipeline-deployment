@@ -21,7 +21,8 @@ def lambda_handler(event, context):
 
     secrets_client = SecretManager()
     secrets = {
-        k: secrets_client.get_secret(k) for k in ["username", "password", "host"]
+        k: secrets_client.get_secret(f"rabbitmq_{k}")
+        for k in ["username", "password", "host"]
     }
 
     queue_name = "celery"
