@@ -10,7 +10,7 @@ def log_message(message):
 
 
 class SecretManager:
-    def __init__(self):
+    def __init__(self) -> None:
         session = boto3.session.Session()
         client = session.client(service_name="secretsmanager", region_name="us-east-1")
         secret_name = "remax-secrets"
@@ -23,7 +23,7 @@ class SecretManager:
         return json.loads(self.secret_dict["SecretString"])[key]
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, context) -> dict:
 
     secrets_client = SecretManager()
     secrets = {
