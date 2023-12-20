@@ -31,7 +31,6 @@ def lambda_handler(event, context):
     response_data = {"status": "", "queue_size": None, "message": ""}
 
     # Get queue size
-
     try:
         response = requests.get(url, auth=(secrets["username"], secrets["password"]))
         response.raise_for_status()
@@ -48,7 +47,6 @@ def lambda_handler(event, context):
         return response_data
 
     #  Upadate ClouWatch Metric
-
     cloudwatch_client = boto3.client("cloudwatch")
 
     try:
