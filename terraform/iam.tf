@@ -1,4 +1,6 @@
 
+# Rabbit MQ
+
 resource "aws_iam_role" "ec2_role" {
   name = "ec2_role"
 
@@ -50,5 +52,8 @@ resource "aws_iam_role_policy_attachment" "ec2_cli_attach" {
   role       = aws_iam_role.ec2_cli_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"  
 }
+
+
+# AWS Lambda (CloudWatch Metric)
 
 
