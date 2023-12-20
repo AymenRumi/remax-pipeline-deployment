@@ -110,7 +110,7 @@ resource "aws_instance" "rabbitmq_instance" {
   key_name = "chrome-test"
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
-  user_data = file("${path.module}/ec2-user-data/ec2-rabbitmq-init.sh")
+  user_data = file("${path.module}/../ec2-user-data/ec2-rabbitmq-init.sh")
 
 
   tags = {
