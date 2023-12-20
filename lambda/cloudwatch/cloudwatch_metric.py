@@ -5,7 +5,7 @@ import requests
 from botocore.exceptions import ClientError
 
 
-def log_message(message):
+def log_message(message: str) -> None:
     print(json.dumps(message))
 
 
@@ -33,7 +33,7 @@ def lambda_handler(event, context) -> dict:
 
     queue_name = "celery"
 
-    url = f"{secrets['host']}/api/queue/%2F/{queue_name}"
+    url = f"{secrets['host']}/api/queues/%2F/{queue_name}"
 
     response_data = {"status": "", "queue_size": None, "message": ""}
 
