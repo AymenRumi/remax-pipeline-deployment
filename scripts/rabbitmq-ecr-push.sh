@@ -22,7 +22,7 @@ export IMAGE_NAME="${ECR_REGISTRY_FULL##*/}"
 
 # Building RabbitMQ Docker Image
 echo "${GREEN}Building Docker Image Image${NC}"
-docker build --platform linux/amd64 --build-arg RABBITMQ_USER=$RABBITMQ_USER --build-arg RABBITMQ_PASSWORD=$RABBITMQ_PASS --no-cache -t $IMAGE_NAME -f Dockerfile.RabbitMQ .
+docker build --platform linux/amd64 --build-arg RABBITMQ_USER=$RABBITMQ_USER --build-arg RABBITMQ_PASSWORD=$RABBITMQ_PASS --no-cache -t $IMAGE_NAME -f dockerfiles/Dockerfile.RabbitMQ .
 
 
 echo "${GREEN}Tagging Image${NC}"
