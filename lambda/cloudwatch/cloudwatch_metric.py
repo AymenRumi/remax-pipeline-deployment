@@ -11,10 +11,16 @@ def log_message(message):
 
 class SecretManager:
     def __init__(self):
-        pass
+        session = boto3.session.Session()
+        client = session.client(service_name="secretsmanager", region_name="us-east-1")
+        secret_name = "remax_secrets"
+
+        response = client.get_secret_value(SecretID=secret_name)
+
+        self.secret_dict = json.loads(response)
 
     def get_secret(self, key: str) -> str:
-        pass
+        return self.secret_dict[key]
 
 
 def lambda_handler(event, context):
