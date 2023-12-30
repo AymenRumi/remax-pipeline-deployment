@@ -2,15 +2,15 @@
 data "archive_file" "lambda_my_function" {
     type = "zip"
     output_file_mode = "066"
-    source_dir = "${path.module}/../lambda/rabbitmq-cloudwatch-monitor/"
-    output_path = "${path.module}/../lambda/rabbitmq-cloudwatch-monitor/cloudwatch-monitor.zip"
+    source_dir = "${path.module}/../lambda/rabbitmq-cloudwatch-autoscale/"
+    output_path = "${path.module}/../lambda/rabbitmq-cloudwatch-autoscale/cloudwatch-autoscale.zip"
 }
 
 
-resource "aws_lambda_function" "rabbitmq_monitor" {
-  filename = "${path.module}/../lambda/rabbitmq-cloudwatch-monitor/cloudwatch-monitor.zip"
-  function_name = "rabbitmq_queue_monitor"
-  handler       = "cloudwatch-monitor.lambda_handler"
+resource "aws_lambda_function" "rabbitmq_autoscale" {
+  filename = "${path.module}/../lambda/rabbitmq-cloudwatch-autoscale/cloudwatch-autoscale.zip"
+  function_name = "rabbitmq_cloudwatch_autoscale"
+  handler       = "cloudwatch-autoscale.lambda_handler"
   runtime       = "python3.11"
 
 

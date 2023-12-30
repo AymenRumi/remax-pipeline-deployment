@@ -7,10 +7,10 @@ GREEN='\033[0;32m'
 NC='\033[0m' 
 
 
-DIR_PATH="lambda/rabbitmq-cloudwatch-monitor"
-PYTHON_FILE="cloudwatch-monitor.py"
-ZIP_FILE="cloudwatch-monitor.zip"                
-FUNCTION_NAME="rabbitmq_queue_monitor"   
+DIR_PATH="lambda/rabbitmq-cloudwatch-autoscale"
+PYTHON_FILE="cloudwatch-autoscale.py"
+ZIP_FILE="cloudwatch-autoscale.zip"                
+FUNCTION_NAME="rabbitmq_cloudwatch_autoscale"   
 
 
 cd $DIR_PATH
