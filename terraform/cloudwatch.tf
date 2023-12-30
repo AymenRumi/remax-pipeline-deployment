@@ -1,6 +1,7 @@
 resource "aws_cloudwatch_event_rule" "every_minute_between_1_and_2_pm" {
   name                = "every_minute_between_1_and_2_pm"
-  schedule_expression = "cron(30-59 19 * * ? *)"
+  # schedule_expression = "cron(30-59 19 * * ? *)"
+  schedule_expression = "cron(0/1 * * * ? *)" 
 }
 
 resource "aws_cloudwatch_event_target" "trigger_lambda" {

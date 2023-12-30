@@ -13,5 +13,6 @@ resource "aws_secretsmanager_secret_version" "secrets" {
    rabbitmq_username = var.rabbitmq_username
    rabbitmq_password =  var.rabbitmq_password
    rabbitmq_broker_url = format("amqp://%s:%s@%s",var.rabbitmq_username, var.rabbitmq_password,aws_instance.rabbitmq_instance.public_dns)
+   celery_autoscaling_group = aws_autoscaling_group.asg.name
   })
 }

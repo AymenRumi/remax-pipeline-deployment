@@ -83,11 +83,15 @@ resource "aws_iam_role_policy" "lambda_policy" {
   "Statement": [
     {
       "Action": [
+        "cloudwatch:GetMetricStatistics",
+        "cloudwatch:ListMetrics",
         "cloudwatch:PutMetricData",
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents",
-        "secretsmanager:GetSecretValue"
+        "secretsmanager:GetSecretValue",
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:SetDesiredCapacity"
       ],
       "Resource": "*",
       "Effect": "Allow"
