@@ -12,3 +12,6 @@ variable "rabbitmq_password" {
     sensitive = true
 }
 
+variable "runtime" {
+    default = "python3.11"
+}
